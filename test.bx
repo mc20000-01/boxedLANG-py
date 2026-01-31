@@ -6,6 +6,7 @@ del msg
 test test|55|>|6|yes|no
 say $test|1
 mark test
+jump 10
 math result|10|20|-
 say $result|1
 jump test|m
