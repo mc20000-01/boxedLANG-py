@@ -4,6 +4,9 @@ import time
 import sys
 import box_to_json as bx2json
 
+boxes = {}
+marks = {}
+l = -1
 
 CODE = pathlib.Path(sys.argv[1]).read_text()
 CODE = bx2json.mk(CODE)
@@ -19,10 +22,13 @@ def get_arg(argnumb, args,boxes):
 		arg = arg.replace("~", " ")
 		arg = arg.replace(":", "")
 	except IndexError:
-			arg = "ERROR : " + cur_box
+			arg = ""
 	return arg
 		
-def handle_command(command, boxes, marks,l = 0):
+def handle_command(command):
+	global boxes
+	global marks
+	global l
 	try:
 		args = command['args']
 		match command['cmd']:
@@ -74,7 +80,7 @@ def handle_command(command, boxes, marks,l = 0):
 				case "wait":
 					time.sleep(float(get_arg(0, args, boxes)))
 				case "mark":
-					marks = marks | {get_arg(0, args, boxes): cur_line['ln']}	
+					marks = marks | {get_arg(0, args, boxes): l + 1}	
 				case "jump":
 					if get_arg(1 ,args, boxes) == "m":
 						l = marks[get_arg(0, args, boxes)]
@@ -82,52 +88,57 @@ def handle_command(command, boxes, marks,l = 0):
 						l = int(get_arg(0, args, boxes)) - 1
 				case "if":
 					run = False
-					match get_arg(2, args, boxes):
+					match get_arg(1, args, boxes):
 						case "==":
-							if get_arg(0, args, boxes) == get_arg(3, args, boxes):								
+							if get_arg(0, args, boxes) == get_arg(2, args, boxes):								
 								run = True
 						case "!=":
-							if get_arg(0, args, boxes) != get_arg(3, args, boxes):
+							if get_arg(0, args, boxes) != get_arg(2, args, boxes):
 								run = True
 						case ">":
-							if float(get_arg(0, args, boxes)) > float(get_arg(3, args, boxes)):
+							if float(get_arg(0, args, boxes)) > float(get_arg(2, args, boxes)):
 								run = True
 						case "<":
-							if float(get_arg(0, args, boxes)) < float(get_arg(3, args, boxes)):
+							if float(get_arg(0, args, boxes)) < float(get_arg(2, args, boxes)):
 								run = True
 						case ">=":
-							if float(get_arg(0, args, boxes)) >= float(get_arg(3, args, boxes)):
+							if float(get_arg(0, args, boxes)) >= float(get_arg(2, args, boxes)):
 								run = True
 						case "<=":
-							if float(get_arg(0, args, boxes)) <= float(get_arg(3, args, boxes)):
+							if float(get_arg(0, args, boxes)) <= float(get_arg(2, args, boxes)):
 								run = True
 					if run == True:
-						cm_torn = get_arg(4, args, boxes)
-						i = 4
+						cm_torn = get_arg(3, args, boxes)
+						i = 3
 						while get_arg(i, args, boxes) != "":
-							i = 5
-							if i > 5:
+							i = 4
+							if i > 4:
 								cm_torn = cm_torn + "|" + get_arg(i, args, boxes)
+								i = i + 1
 							else:
+								print(cm_torn)
 								cm_torn = cm_torn + " " + get_arg(i, args, boxes)
-							i = i + 1
-						handle_command(bx2json.mk(cm_torn)[0], boxes, marks)
+								i = i + 1
+							
+						cm_torn = bx2json.mk(cm_torn)[0]
+						print(cm_torn)
+						handle_command(cm_torn, boxes, marks)
 	except Exception as e:
 		print(Back.RED + Fore.WHITE + "ERROR : " + str(e) + Style.RESET_ALL)
-		print(Back.RED + Fore.WHITE + "at line : " + str(l) + "  " + str(bx2json.undo_mk([command])) + Style.RESET_ALL)
+		print(Back.RED + Fore.WHITE + "at line : " + str(l) + "  " + str(bx2json.undo_mk([command]))  + "boxes : " + str(boxes) + Style.RESET_ALL)
+
 
 
 
 def run_boxed_code(boxed_code):
-	
-
-	boxes = {}
-	l = -1
-	marks = {}
+	global boxes
+	global marks
+	global l
 	while l < len(boxed_code)-1:
 		l = l + 1
 		cur_line = boxed_code[l]
-		handle_command(cur_line, boxes, marks, l)
+		print(cur_line)
+		handle_command(cur_line)
 
 print(Back.BLUE + Fore.GREEN + "RUNNING " + sys.argv[1] + Style.RESET_ALL)
 run_boxed_code(CODE)

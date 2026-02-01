@@ -7,7 +7,7 @@ def pull_cmd_from(box_line, ln=0):
     return json
 
 def make_code_from(code):
-    made_code = []
+    made_code = [{'cmd': 'null', 'args': ['start'], 'ln': 0},]
     code = code.splitlines()
     for l in code:
         cur_line = l

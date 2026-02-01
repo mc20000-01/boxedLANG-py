@@ -1,3 +1,4 @@
+box truth|0
 ask truth
 mark 1
 say $truth
