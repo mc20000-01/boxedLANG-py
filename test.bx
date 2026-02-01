@@ -1,15 +1,4 @@
-box usr|sandisk
-box pwd|1234
-
-ask username
-ask password
-
-
-test usr|$username|$usr|==|1|0
-test pwd|$password|$pwd|==|1|0
-
-math login|$usr|$pwd|+
-
-test loggedin|$login|2|==|Access~Granted|Access~Denied
-
-say $loggedin
+ask truth
+mark 1
+say $truth
+if truth|==|1|jump|1|m
