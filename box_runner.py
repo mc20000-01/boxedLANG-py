@@ -115,6 +115,32 @@ def handle_command(command):
 							cm_torn = cm_torn + get_arg(i, args, boxes) + "|"
 						cm_torn = bx2json.mk(cm_torn)[1]
 						handle_command(cm_torn)
+				case "jumpif":
+					jump = False
+					match get_arg(1, args, boxes):
+						case "==":
+							if get_arg(0, args, boxes) == get_arg(2, args, boxes):								
+								jump = True
+						case "!=":
+							if get_arg(0, args, boxes) != get_arg(2, args, boxes):
+								jump = True
+						case ">":
+							if float(get_arg(0, args, boxes)) > float(get_arg(2, args, boxes)):
+								jump = True
+						case "<":
+							if float(get_arg(0, args, boxes)) < float(get_arg(2, args, boxes)):
+								jump = True
+						case ">=":
+							if float(get_arg(0, args, boxes)) >= float(get_arg(2, args, boxes)):
+								jump = True
+						case "<=":
+							if float(get_arg(0, args, boxes)) <= float(get_arg(2, args, boxes)):
+								jump = True
+					if jump == True:
+						if get_arg(4, args, boxes) == "m":
+							l = marks[get_arg(3, args, boxes)]
+						else:
+							l = int(get_arg(3, args, boxes))
 	except Exception as e:
 		print(Back.RED + Fore.WHITE + "ERROR : " + str(e) + Style.RESET_ALL)
 		print(Back.RED + Fore.WHITE + "at line : " + str(l) + "  " + str(bx2json.undo_mk([command]))  + "boxes : " + str(boxes) + Style.RESET_ALL)
