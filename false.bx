@@ -1,0 +1,5 @@
+box false|0
+ask false
+mark 0
+say $false
+jumpif $false|==|0|0|m
