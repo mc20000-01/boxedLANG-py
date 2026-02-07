@@ -64,6 +64,18 @@ def test(arg1,arg2,op):
 								return True
 							else:
 								return False
+							
+def math(numb1,numb2,op):
+	if op == "+":
+		return int(numb1) + int(numb2)
+	elif op == "-":
+		return int(numb1) - int(numb2)
+	elif op == "*":
+		return int(numb1) * int(numb2)
+	elif op == "/":
+		return int(numb1) / int(numb2)
+	elif op == "%":
+		return int(numb1) % int(numb2)
 		
 def handle_command(command):
 	global boxes
@@ -89,7 +101,7 @@ def handle_command(command):
 					else:
 						boxes = boxes | {get_arg(0, args, boxes): get_arg(5, args, boxes)}
 				case "math":
-					boxes = boxes | {get_arg(0, args, boxes): str(eval(get_arg(1, args, boxes) + get_arg(3, args, boxes) + get_arg(2, args, boxes)))}
+					boxes = boxes | {get_arg(0, args, boxes): str(math(get_arg(1, args, boxes),get_arg(2, args, boxes),get_arg(3, args, boxes)))}
 				case "wait":
 					time.sleep(float(get_arg(0, args, boxes)))
 				case "mark":

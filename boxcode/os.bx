@@ -15,12 +15,12 @@ jump notes-:$?|m
 premark notes-w //wright a note
 ask note~name
 ask note
-box notes-:$name|$note
+box :$name|$note
 jump boot|m
 premark notes-r //read a note
 ask name
-say notes-:$name|0
-say $notes-:$name|0
+say $name|0
+say $$name|0
 jump boot|m
 
 premark end //end app
