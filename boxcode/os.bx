@@ -34,6 +34,7 @@ permark files-r
 say /!\pls~addrese~things~file-"name"/!\|0
 ask name
 say $name|0
+say $$name|0
 jump boot|m
 premark files-w
 say /!\pls~name~things~file-"name"/!\|0
