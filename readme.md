@@ -80,7 +80,7 @@ boxrun path/to/program.bx
   mark test
   ```
 
-- `premark` - Pre-mark a location for jumping
+- `premark` - mark a location for jumping before any commands run (note premarks can be over written by any type of mark)
   ```
   premark test
   ```
