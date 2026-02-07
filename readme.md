@@ -1,4 +1,4 @@
-> This repository is for the boxedLANG Python runner, not the Scratch editor itself. 
+
 
 # boxedLANG Python runner
 
