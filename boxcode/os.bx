@@ -14,17 +14,31 @@ premark app-note //note app
 ask wright(w)/read(r)~?
 jump notes-:$?|m
 premark notes-w //wright a note
+say /!\pls~name~things~note-"name"/!\|0
 ask note~name
 ask note
 box :$name|$note
 jump boot|m
 premark notes-r //read a note
+say /!\pls~addrese~things~note-"name"/!\|0
 ask name
 say $name|0
 say $$name|0
 jump boot|m
 
 premark app-files
+ask read(r)/wright(w)/del(d)~?
+jump files-:$?|m
+permark files-r
+say /!\pls~addrese~things~file-"name"/!\|0
+ask name
+say $file-:$name|0
+jump boot|m
+premark files-w
+say /!\pls~name~things~file-"name"/!\|0
+ask name
+ask data
+say done~wrighting|0
 jump boot|m
 
 premark end //end app
