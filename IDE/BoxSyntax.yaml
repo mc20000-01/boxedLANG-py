@@ -30,3 +30,4 @@ variables:
 special_symbols:
   - "~"
   - "|"
+  - ":"
