@@ -9,7 +9,7 @@ from interpreter import box_to_json as b2j
 import atexit
 import os
 
-with open("BoxSyntax.yaml") as f:
+with open(os.path.expanduser("~/boxedLANG/IDE/BoxSyntax.yaml")) as f:
     syntax = yaml.safe_load(f)
 
 keywords = syntax['keywords']

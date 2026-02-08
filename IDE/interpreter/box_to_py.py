@@ -32,7 +32,7 @@ def to_py(code_json):
             if args and isinstance(args[0], str):
                 escaped = args[0].replace('\\', '\\\\').replace('"', '\\"')
                 prompt = f'"{escaped}"'
-            py += f"input({prompt})\n"
+            py += f"input({prompt} +  ' : ')\n"
 
     py += '\ninput("\\nPress Enter to close this window...")\n'
 
