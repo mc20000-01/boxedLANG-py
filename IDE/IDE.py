@@ -101,10 +101,10 @@ save_btn = tk.Button(text="Save", command=save_code, foreground=text, background
 save_btn.pack(side="left", anchor="nw", padx=3, pady=3)
 
 open_btn = tk.Button(text="Open", command=open_code, foreground=text, background=back2)
-open_btn.pack(after=save_btn, anchor="nw", padx=3, pady=3)
+open_btn.pack(after=save_btn, anchor="w", padx=3, pady=3)
 
 run_btn = tk.Button(text="Run", command=run_code, foreground=text, background=back2)
-run_btn.pack(side="top", anchor="e", padx=3, pady=3)
+run_btn.pack(side="top", anchor="ne", padx=3, pady=3)
 
 editor = scrolledtext.ScrolledText(root, height=20,background=back1)
 editor.pack(fill=tk.BOTH, expand=True)
