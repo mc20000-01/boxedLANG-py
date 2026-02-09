@@ -93,51 +93,61 @@ def open_code():
             print(f"Open failed\n{str(e)}")
 
 save_btn = tk.Button(text="Save", command=save_code)
-save_btn.pack(side=tk.TOP, anchor="w", padx=5, pady=3)
+save_btn.pack(side="left", anchor="nw", padx=3, pady=3)
 
 open_btn = tk.Button(text="Open", command=open_code)
-open_btn.pack(side=tk.TOP, anchor="w", padx=5, pady=3)
+open_btn.pack(anchor="nw", padx=3, pady=3)
 
 run_btn = tk.Button(text="Run", command=run_code)
-run_btn.pack(side=tk.TOP, anchor="e", padx=5, pady=3)
+run_btn.pack(side="top", anchor="ne", padx=3, pady=3)
 
-editor = scrolledtext.ScrolledText(root, height=20)
+back = "#505050"
+text =  "#ffffff"
+
+editor = scrolledtext.ScrolledText(root, height=20,background="black")
 editor.pack(fill=tk.BOTH, expand=True)
 
 editor.tag_config('keyword', foreground='green')
 editor.tag_config('operator', foreground='red')
 editor.tag_config('variable', foreground='teal')
 editor.tag_config('special', foreground='purple')
+editor.tag_config('default', foreground=text)
 
 
 def highlight_code(event=None):
     content = editor.get("1.0", tk.END)
+    editor.tag_add('default', "1.0", tk.END)
     editor.tag_remove('keyword', "1.0", tk.END)
     editor.tag_remove('operator', "1.0", tk.END)
     editor.tag_remove('variable', "1.0", tk.END)
     editor.tag_remove('special', "1.0", tk.END)
 
     for kw in keywords:
+
         for m in re.finditer(r'\b' + re.escape(kw) + r'\b', content):
             start = f"1.0 + {m.start()} chars"
             end = f"1.0 + {m.end()} chars"
+            editor.tag_remove('default', "1.0", tk.END)
             editor.tag_add('keyword', start, end)
 
     for op in operators:
         for m in re.finditer(re.escape(op), content):
             start = f"1.0 + {m.start()} chars"
             end = f"1.0 + {m.end()} chars"
+            editor.tag_remove('default', "1.0", tk.END)
             editor.tag_add('operator', start, end)
 
     for m in re.finditer(r'\$[A-Za-z_][A-Za-z0-9_]*', content):
         start = f"1.0 + {m.start()} chars"
         end = f"1.0 + {m.end()} chars"
+        editor.tag_remove('default', "1.0", tk.END)
         editor.tag_add('variable', start, end)
 
     for sym in special_symbols:
         for m in re.finditer(re.escape(sym), content):
             start = f"1.0 + {m.start()} chars"
             end = f"1.0 + {m.end()} chars"
+            editor.tag_remove('default', "1.0", tk.END)
             editor.tag_add('special', start, end)
 
 
