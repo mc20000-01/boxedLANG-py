@@ -6,6 +6,16 @@ def pull_cmd_from(box_line, ln=0):
     else:
         marks = {}
     lenth = len(data)
+
+    if cmd == "loop'":
+        alr_loops = alr_loops + 1
+        cur_loop = cur_loop + 1
+        cmd = "mark"
+        args = ["sys-lp-" + alr_loops]
+    if cmd == "'":
+        cmd = "jump"
+        args = ["sys-lp-" + cur_loop, "m"]
+        cur_loop = cur_loop - 1
     args = data[lenth - 1].split("|") #splits args from box standerd
     json = {"cmd": cmd,"args": args, "ln": ln, "marks": marks} #makes the json to be run / decoeded further
     return json
