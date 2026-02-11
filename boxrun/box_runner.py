@@ -13,7 +13,7 @@ CODE = file.Path(os.path.expanduser(sys.argv[1])).resolve().read_text()
 
 def get_arg(argnumb, args,boxes):
 	try:
-		arg = args[argnumb]
+		arg = str(args[argnumb])
 		for i in range(0, arg.count("$")):
 			cur_box = arg.split("$")[arg.count("$")]
 			if "~" in cur_box:
@@ -135,6 +135,9 @@ def handle_command(command):
 					exit()
 				case "weigh" | "wh":
 					boxes = boxes | {get_arg(1,args,boxes): str(len(str(get_arg(0,args,boxes))))}
+				case "mrkst":
+					marks = marks | {get_arg(0, args, boxes): l }
+					boxes = boxes | {get_arg(0, args, boxes): "0"}
 	except Exception as e:
 		print(Back.RED + Fore.WHITE + "ERROR : " + str(e))
 		print(Back.RED + Fore.WHITE + "at line : " + str(l) + "  " + str(undo_mk([command]))  + "boxes : " + str(boxes) + "  marks : " + str(marks))
@@ -162,4 +165,7 @@ def start_boxed_code(boxed_code, name):
 
 
 if __name__ == "__main__":
-	start_boxed_code(CODE, sys.argv[1])
+	try:
+		start_boxed_code(CODE, sys.argv[1])
+	except KeyboardInterrupt:
+		print("KeyboardInterrupt by user")

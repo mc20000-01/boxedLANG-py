@@ -6,3 +6,6 @@ ask
 say $|0
 weigh $|name
 say $name
+loop' 5
+say test
+'

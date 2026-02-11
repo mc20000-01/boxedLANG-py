@@ -1,22 +1,28 @@
 def pull_cmd_from(box_line, ln=0):
+    alr_loops = 0
+    cur_loop = 0
+    lpv = [0]
+
     data = box_line.split(" ")
     cmd = data[0] #gets command from box standard
+    length = len(data)
+    args = data[length - 1].split("|") #splits args from box standerd
     if cmd == "premark":
         marks = {data[1]: ln + 1}
     else:
         marks = {}
-    lenth = len(data)
 
     if cmd == "loop'":
         alr_loops = alr_loops + 1
         cur_loop = cur_loop + 1
-        cmd = "mark"
-        args = ["sys-lp-" + alr_loops]
+        cmd = "mrkst"
+        args = ["sys-lp-" + str(alr_loops)]
+        lpv = [*lpv, *[args[0]]]
     if cmd == "'":
-        cmd = "jump"
-        args = ["sys-lp-" + cur_loop, "m"]
+        cmd = "jumpif"
+        lp = "sys-lp-" + str(cur_loop + 1)
+        args = ["$"+lp,">=",lpv[alr_loops],lp, "m"]
         cur_loop = cur_loop - 1
-    args = data[lenth - 1].split("|") #splits args from box standerd
     json = {"cmd": cmd,"args": args, "ln": ln, "marks": marks} #makes the json to be run / decoeded further
     return json
 
@@ -39,7 +45,7 @@ def undo_mk(boxed_code):
         args = l['args']
         line = cmd + " "
         for a in args:
-            line = line + a + "|"
+            line = line + str(a) + "|"
         line = line[:-1] + "\n"
         code = code + line
     return code
