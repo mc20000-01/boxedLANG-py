@@ -1,7 +1,9 @@
+lpv = [0]
+
 def pull_cmd_from(box_line, ln=0):
     alr_loops = 0
     cur_loop = 0
-    lpv = [0]
+    global lpv
 
     data = box_line.split(" ")
     cmd = data[0] #gets command from box standard
@@ -11,22 +13,23 @@ def pull_cmd_from(box_line, ln=0):
         marks = {data[1]: ln + 1}
     else:
         marks = {}
-
     if cmd == "loop'":
         alr_loops = alr_loops + 1
         cur_loop = cur_loop + 1
         cmd = "mrkst"
-        args = ["sys-lp-" + str(alr_loops)]
         lpv = [*lpv, *[args[0]]]
+        args = ["sys-lp-" + str(alr_loops)]
     if cmd == "'":
         cmd = "jumpif"
         lp = "sys-lp-" + str(cur_loop + 1)
-        args = ["$"+lp,">=",lpv[alr_loops],lp, "m"]
+        args = ["$"+lp,">=",int(lpv[cur_loop + 1]),lp, "m"]
         cur_loop = cur_loop - 1
+        print(lpv)
     json = {"cmd": cmd,"args": args, "ln": ln, "marks": marks} #makes the json to be run / decoeded further
     return json
 
 def make_code_from(code):
+    global lpv
     made_code = [{'cmd': 'null', 'args': ['start'], 'ln': 0, 'marks': {}},]
     code = code.splitlines()
     for l in code:
