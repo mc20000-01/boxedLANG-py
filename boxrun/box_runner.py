@@ -99,7 +99,7 @@ def handle_command(command):
 				case "del" | "d":
 					del boxes[get_arg(0, args, boxes)]
 				case "test" | "t":
-					if test(get_arg(0, args, boxes), get_arg(1, args, boxes), get_arg(3, args, boxes)) == True:
+					if test(get_arg(1, args, boxes), get_arg(2, args, boxes), get_arg(3, args, boxes)):
 						boxes = boxes | {get_arg(0, args, boxes): get_arg(4, args, boxes)}
 					else:
 						boxes = boxes | {get_arg(0, args, boxes): get_arg(5, args, boxes)}
@@ -136,11 +136,14 @@ def handle_command(command):
 				case "weigh" | "wh":
 					boxes = boxes | {get_arg(1,args,boxes): str(len(str(get_arg(0,args,boxes))))}
 				case "mrkst":
-					marks = marks | {get_arg(0, args, boxes): l }
-					if not boxes.__contains__(get_arg(0, args, boxes)):
-						boxes = boxes | {get_arg(0, args, boxes): "1"}
+					arg1 = get_arg(0, args, boxes)
+					marks = marks | {arg1: l - 1 }
+					if not boxes.__contains__(arg1):
+						boxes = boxes | {arg1: "1"}
 					else:
-						boxes = boxes | {get_arg(0, args, boxes): str(int(boxes[get_arg(0, args, boxes)] + 1))}
+						val = str(int(boxes[arg1] + 1))
+						print(val)
+						boxes = boxes | {arg1: val}
 						print(boxes)
 	except Exception as e:
 		print(Back.RED + Fore.WHITE + "ERROR : " + str(e))
@@ -152,7 +155,6 @@ def handle_command(command):
 
 def run_boxed_code(boxed_code):
 	boxed_code = mk(boxed_code)
-	print(boxed_code)
 	global boxes
 	global marks
 	global l

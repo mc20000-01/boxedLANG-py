@@ -1,4 +1,4 @@
-box  🌑🐀💻🏳️‍🌈|test
+box  🌑🐀💻🏳️‍🌈|emojis
 box |blank
 say $🌑🐀💻🏳️‍🌈|0
 say $|0
@@ -6,6 +6,8 @@ ask
 say $|0
 weigh $|name
 say $name
+
 loop' 5
 say test
+
 '

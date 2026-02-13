@@ -1,5 +1,6 @@
-say booting~boxed-os|1
+say booting~boxed-os~~ver~0.01~sky|1
 ask login
+ask password
 jump filesys-setup|m
 
 premark app-calc //calculator app
@@ -64,5 +65,10 @@ jump boot|m
 
 premark filesys-setup
 box file-usr|$login
-say 🗕$file-usr
-jump boot|m
+test lg|$login|admin|==|1|0
+test in|$password|1234|==|1|0
+math loggedin|$lg|$in|+
+if $loggedin|==|2|jump|boot|m
+say bad~login~or~error|0
+say ending~os~loop|0
+if $loggedin|!=|2|jump|app-end|m
