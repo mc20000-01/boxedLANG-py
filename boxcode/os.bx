@@ -1,7 +1,17 @@
+
 say booting~boxed-os~~ver~0.01~sky|1
 ask login
 ask password
-jump filesys-setup|m
+box file-usr|usr:~$login~~~pwd:~$password
+
+test lg|$login|admin|==|1|0
+test in|$password|1234|==|1|0
+math loggedin|$lg|$in|+
+if $loggedin|==|2|jump|boot|m
+say bad~login~or~error|0
+say ending~os~loop|0
+if $loggedin|!=|2|jump|app-end|m
+
 
 premark app-calc //calculator app
 ask #1
@@ -11,39 +21,53 @@ math calc|$#1|$#2|$op
 say $calc|0
 jump boot|m
 
+
 premark app-note //note app
-ask wright(w)/read(r)~?
+ask write(w)/read(r)~?
 jump notes-:$?|m
-premark notes-w //wright a note
+premark notes-w //write a note
+
 say /!\pls~name~things~note-"name"/!\|0
 ask note~name
 ask note
 box $name|$note
-say done~wrighting|0
+say done~writing|0
 jump boot|m
 premark notes-r //read a note
+
 say /!\pls~addrese~things~note-"name"/!\|0
 ask name
+say |0
 say $name|0
+say --------------|0
 say $$name|0
+say |0
 jump boot|m
 
+
+premark app-file
 premark app-files
-ask read(r)/wright(w)/del(d)~?
+ask read(r)/write(w)/del(d)~?
 jump files-:$?|m
-permark files-r
+
+premark files-r
 say /!\pls~addrese~things~file-"name"/!\|0
 ask name
+say |0
 say $name|0
+say --------------|0
 say $$name|0
+say |0
 jump boot|m
+
 premark files-w
 say /!\pls~name~things~file-"name"/!\|0
 ask name
 ask data
 box $name|$data
-say done~wrighting|0
+say done~writing|0
 jump boot|m
+
 premark files-d
 ask name
 ask are~you~sure~yes(y)/no(n)~?
@@ -51,8 +75,10 @@ if $?|==|y|del|$name
 say done~deleting|0
 jump boot|m
 
+
 premark app-end //end app
 end now
+
 
 premark boot 
 ask name~of~app
@@ -62,13 +88,3 @@ box data|
 box note|
 box ?|
 jump boot|m
-
-premark filesys-setup
-box file-usr|$login
-test lg|$login|admin|==|1|0
-test in|$password|1234|==|1|0
-math loggedin|$lg|$in|+
-if $loggedin|==|2|jump|boot|m
-say bad~login~or~error|0
-say ending~os~loop|0
-if $loggedin|!=|2|jump|app-end|m
